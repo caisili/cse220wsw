@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <ctype.h>  // isupper, islower, isdigit
+
+// 对单个字符做 ROT13/ROT5
+char rot13_char(char c) {
+    if (isupper(c)) {  
+        // 大写字母 A–Z
+        return (c - 'A' + 13) % 26 + 'A';
+    } else if (islower(c)) {  
+        // 小写字母 a–z
+        return (c - 'a' + 13) % 26 + 'a';
+    } else if (isdigit(c)) {  
+        // 数字 0–9
+        return (c - '0' + 5) % 10 + '0';
+    } else {
+        // 其他字符不变
+        return c;
+    }
+}
+
+// 对字符串整体做 ROT13/ROT5
+void rot13_string(char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        str[i] = rot13_char(str[i]);
+    }
+}
+
+// 测试
+int main() {
+    char text[] = "The quick brown fox jumped over the lazy dog's back 1234567890 times.";
+    
+    printf("原文: %s\n", text);
+    rot13_string(text);
+    printf("加密: %s\n", text);
+    rot13_string(text);
+    printf("解密: %s\n", text);  // 再次调用就还原
+
+    return 0;
+}
